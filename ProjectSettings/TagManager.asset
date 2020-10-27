@@ -13,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Obstacles
+  - Destructables
+  - Enemy
+  - Shells
+  - Player
   - 
   - 
   - 

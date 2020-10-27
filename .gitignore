@@ -34,3 +34,15 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/Joystick Pack/Documentaion.pdf
+Assets/Joystick Pack/Documentaion.pdf.meta
+Assets/Joystick Pack/Examples/Example Scene.unity
+Assets/Joystick Pack/Examples/Example Scene.unity.meta
+Assets/Joystick Pack/Examples/Ground.mat
+Assets/Joystick Pack/Examples/Ground.mat.meta
+Assets/Joystick Pack/Examples/JoystickPlayerExample.cs
+Assets/Joystick Pack/Examples/JoystickPlayerExample.cs.meta
+Assets/Joystick Pack/Examples/JoystickSetterExample.cs
+Assets/Joystick Pack/Examples/JoystickSetterExample.cs.meta
+Assets/Joystick Pack/Examples/Player.mat
+Assets/Joystick Pack/Examples/Player.mat.meta

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class TankService : MonoSingletonGeneric<TankService>
 {
-    public GameObject tank;
+    public TankController tank;
+    [SerializeField] private Joystick joystick;
+    public GameObject shellPosition;
+    public List<TankTypesScriptable> type;
     void Start()
     {
         TankService.Instance.GetTank();
@@ -12,6 +15,7 @@ public class TankService : MonoSingletonGeneric<TankService>
 
     private void GetTank()
     {
-        Instantiate(tank);
+        int playerChoice = PlayerPrefs.GetInt("Player's Choice");
+        Instantiate(tank).Initialize(type[playerChoice], joystick);
     }
 }

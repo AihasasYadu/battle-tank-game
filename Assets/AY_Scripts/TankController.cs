@@ -9,7 +9,6 @@ public class TankController : MonoSingletonGeneric<TankController>
 {
     [SerializeField] private GameObject tankBody;
     [SerializeField] private TextMesh floatingName;
-    [SerializeField] private ParticleSystem explosion;
 
     /*---Private---*/
     private Joystick joystick;
@@ -93,18 +92,19 @@ public class TankController : MonoSingletonGeneric<TankController>
 
     private void PlayerDeath()
     {
-        PauseGame();
-        StartCoroutine(Delay(5));
-        ContinueGame();
-        ParticleSystem explodeInstance = Instantiate(explosion, transform.position, transform.rotation);
+        ParticlesService.Instance.GetTankExplosion(transform);
+        StartCoroutine("Delay");
         Destroy(tankBody);
         Destroy(floatingName);
+        GetComponent<BoxCollider>().enabled = false;
+        rb.isKinematic = true;
         isDead = true;
+        EnemySpawnerService.Instance.DestroyEnemies();
     }
 
     private void PauseGame()
     {
-        Time.timeScale = 0;
+        Time.timeScale = 0.1f;
     }
 
     private void ContinueGame()
@@ -112,9 +112,17 @@ public class TankController : MonoSingletonGeneric<TankController>
         Time.timeScale = 1;
     }
 
-    private IEnumerator Delay(int seconds)
+    private IEnumerator Delay()
     {
-        yield return new WaitForSeconds(seconds);
+        PauseGame();
+        float seconds = 3;
+        float pause = Time.realtimeSinceStartup + seconds;
+        Debug.Log("Pause : " + pause);
+        while (Time.realtimeSinceStartup < pause)
+        {
+            yield return 0;
+        }
+        ContinueGame();
     }
 
     public void ShootShell()

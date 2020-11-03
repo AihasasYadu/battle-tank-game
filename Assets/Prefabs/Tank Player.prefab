@@ -365,7 +365,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1836586855188434770}
+  - component: {fileID: 1151919848780853830}
   - component: {fileID: 1836586855188434733}
   - component: {fileID: 1836586855188434732}
   m_Layer: 12
@@ -375,20 +375,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1836586855188434770
-Transform:
+--- !u!224 &1151919848780853830
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1836586855188434769}
-  m_LocalRotation: {x: 0.38566446, y: 0, z: 0, w: 0.92263913}
-  m_LocalPosition: {x: 0, y: 14.8, z: -14.41}
+  m_LocalRotation: {x: 0.22572549, y: -0, z: -0, w: 0.974191}
+  m_LocalPosition: {x: 0, y: 0, z: -78.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1836586856593098827}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 45.37, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 26.091002, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 38.6}
+  m_SizeDelta: {x: 776, y: 436.25}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!20 &1836586855188434733
 Camera:
   m_ObjectHideFlags: 0
@@ -415,8 +420,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 12.56
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -471,7 +476,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 405065236502747640}
-  - {fileID: 1836586855188434770}
+  - {fileID: 1151919848780853830}
   - {fileID: 7547075013605467662}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -489,7 +494,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankBody: {fileID: 405065236502840344}
-  shell: {fileID: 8068213361779814701, guid: e36fe9554c727e34595932a34b60d6d8, type: 3}
+  floatingName: {fileID: 9009436312406041967}
+  explosion: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
 --- !u!65 &5926235565009957558
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -5,20 +5,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class PlayerSelectionScript : MonoBehaviour
 {
     private Button button;
-    private Text text;
+    [SerializeField] private Text text;
     private void Awake()
     {
-        text = GetComponentInChildren<Text>();
         button = GetComponent<Button>();
         button.onClick.AddListener(LoadLobby);
     }
     private void LoadLobby()
     {
         SavePlayerChoice();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene((int)SceneIndex.Test);
     }
     private void SavePlayerChoice()
     {
@@ -26,7 +26,7 @@ public class PlayerSelectionScript : MonoBehaviour
         {
             if(type.ToString().Equals(RemoveSpaces(text.text)))
             {
-                PlayerPrefs.SetInt("Player's Choice", (int)type);
+                PlayerPrefs.SetInt("TankSelected", (int)type);
                 return;
             }
         }

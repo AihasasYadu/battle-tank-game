@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
+[RequireComponent(typeof(Rigidbody))]
 public class TankController : MonoSingletonGeneric<TankController>
 {
-    public GameObject tankBody;
-    public ShellController shell;
-    
+    [SerializeField] private GameObject tankBody;
+    [SerializeField] private TextMesh floatingName;
+    [SerializeField] private ParticleSystem explosion;
+
     /*---Private---*/
     private Joystick joystick;
+    private Button shootButton;
+    private bool isDead = false;
 
     /*---Tank Properties---*/
-    private TextMesh floatingName;
     private string tankName;
     private float speed;
     private int damage;
@@ -24,14 +29,14 @@ public class TankController : MonoSingletonGeneric<TankController>
     private Rigidbody rb;
     private Vector3 movement;
     
-    public void Initialize(TankTypesScriptable t, Joystick jt)
+    public void Initialize(TankTypesScriptable t, Joystick jt, Button b)
     {
         tankName = t.tankName;
         speed = t.speed;
         damage = t.damage;
         health = t.health;
         joystick = jt;
-        Debug.Log("Player : " + tankName + " Speed : " + speed);
+        shootButton = b;
     }
     protected override void Awake()
     {
@@ -41,15 +46,18 @@ public class TankController : MonoSingletonGeneric<TankController>
 
     private void Start()
     {
-        floatingName = GetComponentInChildren<TextMesh>();
+        shootButton.onClick.AddListener(ShootShell);
         floatingName.text = tankName;
     }
 
     void Update()
     {
-        Movement();
-        NameLookAtCamera();
-        TankService.Instance.shellPosition = tankBody;
+        if (!isDead)
+        {
+            Movement();
+            NameLookAtCamera();
+            TankService.Instance.SetShellPos = tankBody;
+        }
     }
 
     private void Movement()
@@ -76,10 +84,41 @@ public class TankController : MonoSingletonGeneric<TankController>
         floatingName.transform.Rotate(0, 180, 0);
     }
 
-    public void Shoot()
+    public void TakeDamage(int damageDealt)
     {
-        ShellController shellObject = Instantiate(shell, TankService.Instance.shellPosition.transform.position, TankService.Instance.shellPosition.transform.rotation);
-        Rigidbody shellRB = shellObject.GetComponent<Rigidbody>();
-        shellRB.AddForce(TankService.Instance.shellPosition.transform.forward * speed);
+        health -= damageDealt;
+        if (health <= 0)
+            PlayerDeath();
+    }
+
+    private void PlayerDeath()
+    {
+        PauseGame();
+        StartCoroutine(Delay(5));
+        ContinueGame();
+        ParticleSystem explodeInstance = Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(tankBody);
+        Destroy(floatingName);
+        isDead = true;
+    }
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void ContinueGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    private IEnumerator Delay(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
+
+    public void ShootShell()
+    {
+        ShellService.Instance.GetShell(damage, speed);
     }
 }

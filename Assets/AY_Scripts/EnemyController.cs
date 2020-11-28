@@ -2,59 +2,67 @@
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IDamageable
 {
-    [SerializeField] private TextMesh floatingName;
-    
+    private NpcStates currentState;
     private int obstacleLayer = 8;
     private int destructablesLayer = 9;
     private int playerLayer = 12;
-    private Vector3 newPosition;
-    private Rigidbody rb;
 
     /*---Tank Properties---*/
     private string tankName;
-    private float speed;
-    private int damage;
     private int health;
+    [HideInInspector] public float speed;
+    [HideInInspector] public int damage;
+
+    /*---Public Variables---*/
+    public GameObject shellPosition;
+    public TextMesh floatingName;
+    public MeshFilter turret;
+
+    [HideInInspector] public Vector3 newPosition;
+    [HideInInspector] public Transform playerTransform;
+    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public PatrollingState patrolling;
+    [HideInInspector] public AttackingState attacking;
+    [HideInInspector] public TankSides tankSide;
+
     public void Initialize(TankTypesScriptable t)
     {
         tankName = t.tankName;
-        speed = t.speed;
+        speed = t.speed / 2;
         damage = t.damage;
         health = t.health;
     }
-    void Start()
+
+    private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         floatingName.text = tankName;
+        tankSide = TankSides.Enemy;
+        patrolling = GetComponent<PatrollingState>();
+        attacking = GetComponent<AttackingState>();
+        currentState = patrolling;
         SetNewCoordinates();
     }
 
-    void Update()
+    private void Update()
     {
-        Movement();
-        NameLookAtCamera();
+        currentState = currentState.Enter(this);
     }
 
-    private void Movement()
+    public void TakeDamage(int damageDealt, TankSides tank)
     {
-        rb.MovePosition(transform.position + newPosition * Time.deltaTime);
-        Turn();
+        if (tank == tankSide)
+            return;
+        health -= damageDealt;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
-    private void Turn()
-    {
-        transform.rotation = Quaternion.LookRotation(newPosition, Vector3.up);
-    }
-
-    private void NameLookAtCamera()
-    {
-        floatingName.transform.LookAt(Camera.main.transform.position);
-        floatingName.transform.Rotate(0, 180, 0);
-    }
-
-    private void SetNewCoordinates()
+    public void SetNewCoordinates()
     {
         int randX = 0, randZ = 0;
         do
@@ -65,25 +73,34 @@ public class EnemyController : MonoBehaviour
         newPosition = new Vector3(randX * speed, 0, randZ * speed);
     }
 
-    public void TakeDamage(int damageDealt)
+    private void OnCollisionEnter(Collision collision)
     {
-        health -= damageDealt;
-        if (health <= 0)
+        if (collision.gameObject.layer.Equals(obstacleLayer) || collision.gameObject.layer.Equals(destructablesLayer))
         {
-            Destroy(gameObject);
+            SetNewCoordinates();
+        }
+
+        IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage, tankSide);
+            SetNewCoordinates();
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerStay(Collider collision)
     {
-        if(collision.gameObject.layer.Equals(obstacleLayer) || collision.gameObject.layer.Equals(destructablesLayer))
+        if (collision.gameObject.layer.Equals(playerLayer))
         {
-            SetNewCoordinates();
+            playerTransform = collision.transform;
         }
-        if(collision.gameObject.layer.Equals(playerLayer))
+    }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.gameObject.layer.Equals(playerLayer))
         {
-            collision.gameObject.GetComponent<TankController>().TakeDamage(damage);
-            SetNewCoordinates();
+            playerTransform = null;
         }
     }
 }

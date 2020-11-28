@@ -250,6 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 405065236502747640}
+  - component: {fileID: 774822890765594721}
   m_Layer: 12
   m_Name: TankRenderers
   m_TagString: Untagged
@@ -274,9 +275,23 @@ Transform:
   - {fileID: 405065236502747644}
   - {fileID: 2674646219242854095}
   - {fileID: 4864642980894202401}
+  - {fileID: 1307354689326502268}
   m_Father: {fileID: 1836586856593098827}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &774822890765594721
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405065236502840344}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5693879, y: 1.8367443, z: 2.1613846}
+  m_Center: {x: 0.003887415, y: 0.88028383, z: -0.077753305}
 --- !u!1 &405065236502840348
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +471,6 @@ GameObject:
   - component: {fileID: 1836586856593098827}
   - component: {fileID: 4995585151368127142}
   - component: {fileID: 1978070746619531419}
-  - component: {fileID: 781966359168748859}
   m_Layer: 12
   m_Name: Tank Player
   m_TagString: Untagged
@@ -495,7 +509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tankBody: {fileID: 405065236502840344}
   floatingName: {fileID: 9009436312406041967}
-  explosion: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b, type: 3}
+  shellPosition: {fileID: 8955330852504346100}
+  tankSide: 0
 --- !u!54 &1978070746619531419
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -512,19 +527,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &781966359168748859
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1836586856593098826}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5693879, y: 1.8367443, z: 2.2576559}
-  m_Center: {x: 0.003887415, y: 0.88028383, z: -0.029617667}
 --- !u!1 &3484485545387230533
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +620,36 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4279548184
+--- !u!1 &8955330852504346100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1307354689326502268}
+  m_Layer: 0
+  m_Name: Shell Positioner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1307354689326502268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8955330852504346100}
+  m_LocalRotation: {x: -0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.010000229, y: 1.64, z: 1.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 405065236502747640}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2674646219242358189
 PrefabInstance:
   m_ObjectHideFlags: 0

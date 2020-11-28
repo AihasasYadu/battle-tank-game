@@ -5,11 +5,12 @@ using UnityEngine;
 public class ShellService : MonoSingletonGeneric<ShellService>
 {
     [SerializeField] private ShellController shell;
+    private Transform tankTransform;
+    public Transform SetTankTransform {set  { tankTransform = value;} }
 
-    public void GetShell(int dmg, float speed)
+    public void GetShell(int dmg, float speed, TankSides side)
     {
-        Transform temp = TankService.Instance.GetShellPos.transform;
-        ShellController shellInstance = Instantiate(shell, temp.position, temp.rotation);
-        shellInstance.Initialize(dmg, speed);
+        ShellController shellInstance = Instantiate(shell, tankTransform.position, tankTransform.rotation);
+        shellInstance.Initialize(dmg, speed, side);
     }
 }

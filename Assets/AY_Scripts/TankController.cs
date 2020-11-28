@@ -5,15 +5,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
-public class TankController : MonoSingletonGeneric<TankController>
+public class TankController : MonoSingletonGeneric<TankController>, IDamageable
 {
     [SerializeField] private GameObject tankBody;
     [SerializeField] private TextMesh floatingName;
+    [SerializeField] private GameObject shellPosition;
 
     /*---Private---*/
     private Joystick joystick;
     private Button shootButton;
-    private bool isDead = false;
+    private Image shootButtonImage;
+    private bool reloading = false;
 
     /*---Tank Properties---*/
     private string tankName;
@@ -27,7 +29,9 @@ public class TankController : MonoSingletonGeneric<TankController>
     private Vector3 lookDirection;
     private Rigidbody rb;
     private Vector3 movement;
-    
+
+    [HideInInspector] public TankSides tankSide;
+
     public void Initialize(TankTypesScriptable t, Joystick jt, Button b)
     {
         tankName = t.tankName;
@@ -47,15 +51,16 @@ public class TankController : MonoSingletonGeneric<TankController>
     {
         shootButton.onClick.AddListener(ShootShell);
         floatingName.text = tankName;
+        shootButtonImage = shootButton.GetComponent<Image>();
+        tankSide = TankSides.Player;
     }
 
     void Update()
     {
-        if (!isDead)
+        if (tankBody)
         {
             Movement();
             NameLookAtCamera();
-            TankService.Instance.SetShellPos = tankBody;
         }
     }
 
@@ -83,8 +88,10 @@ public class TankController : MonoSingletonGeneric<TankController>
         floatingName.transform.Rotate(0, 180, 0);
     }
 
-    public void TakeDamage(int damageDealt)
+    public void TakeDamage(int damageDealt, TankSides tank)
     {
+        if (tank == tankSide)
+            return;
         health -= damageDealt;
         if (health <= 0)
             PlayerDeath();
@@ -93,16 +100,13 @@ public class TankController : MonoSingletonGeneric<TankController>
     private void PlayerDeath()
     {
         ParticlesService.Instance.GetTankExplosion(transform);
-        StartCoroutine("Delay");
+        StartCoroutine(Delay());
         Destroy(tankBody);
-        Destroy(floatingName);
-        GetComponent<BoxCollider>().enabled = false;
         rb.isKinematic = true;
-        isDead = true;
         EnemySpawnerService.Instance.DestroyEnemies();
     }
 
-    private void PauseGame()
+    private void SlowMoGame()
     {
         Time.timeScale = 0.1f;
     }
@@ -114,10 +118,9 @@ public class TankController : MonoSingletonGeneric<TankController>
 
     private IEnumerator Delay()
     {
-        PauseGame();
+        SlowMoGame();
         float seconds = 3;
         float pause = Time.realtimeSinceStartup + seconds;
-        Debug.Log("Pause : " + pause);
         while (Time.realtimeSinceStartup < pause)
         {
             yield return 0;
@@ -127,6 +130,23 @@ public class TankController : MonoSingletonGeneric<TankController>
 
     public void ShootShell()
     {
-        ShellService.Instance.GetShell(damage, speed);
+        if(tankBody && !reloading)
+        {
+            ShellService.Instance.SetTankTransform = shellPosition.transform;
+            ShellService.Instance.GetShell(damage, speed, TankSides.Player);
+            StartCoroutine(Reload());
+        }
+    }
+
+    private IEnumerator Reload()
+    {
+        shootButtonImage.fillAmount = 0;
+        reloading = true;
+        while(shootButtonImage.fillAmount != 1)
+        {
+            shootButtonImage.fillAmount += 0.02f;
+            yield return new WaitForSeconds(0.05f);
+        }
+        reloading = false;
     }
 }

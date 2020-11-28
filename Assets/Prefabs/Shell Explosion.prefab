@@ -4748,7 +4748,7 @@ GameObject:
   - component: {fileID: 19807510}
   - component: {fileID: 19960184}
   m_Layer: 0
-  m_Name: ShellExplosion
+  m_Name: Shell Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4780,7 +4780,7 @@ ParticleSystem:
   serializedVersion: 6
   lengthInSec: 1.5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}

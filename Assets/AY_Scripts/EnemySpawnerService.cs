@@ -64,4 +64,17 @@ public class EnemySpawnerService : MonoSingletonGeneric<EnemySpawnerService>
             yield return new WaitForSeconds(1);
         }
     }
+
+    public void RemoveEmptyElements()
+    {
+        int len = enemyList.Count;
+        for(int i = 0 ; i < len ; i++)
+        {
+            if (enemyList[i] == null)
+            {
+                enemyList.RemoveAt(i);
+                len--;
+            }
+        }
+    }
 }

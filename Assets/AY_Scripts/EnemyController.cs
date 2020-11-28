@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour, IDamageable
@@ -17,7 +18,7 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     /*---Public Variables---*/
     public GameObject shellPosition;
-    public TextMesh floatingName;
+    public TextMeshProUGUI floatingName;
     public MeshFilter turret;
 
     [HideInInspector] public Vector3 newPosition;
@@ -102,5 +103,10 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             playerTransform = null;
         }
+    }
+
+    private void OnDestroy()
+    {
+        EnemySpawnerService.Instance.RemoveEmptyElements();
     }
 }

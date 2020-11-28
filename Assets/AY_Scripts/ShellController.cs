@@ -5,8 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ShellController : MonoBehaviour
 {
-    public int shellDamage;
-    public ParticleSystem explosion;
+    private int shellDamage;
     private int enemyLayer = 10;
     private int shellLimitLayer = 13;
     private int launchForce;
@@ -35,8 +34,7 @@ public class ShellController : MonoBehaviour
         if (collision.gameObject.layer.Equals(enemyLayer))
         {
             collision.gameObject.GetComponent<EnemyController>().TakeDamage(shellDamage);
-            ParticleSystem explodeInstance = Instantiate(explosion, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
-            explodeInstance.Play();
+            ParticlesService.Instance.GetShellExplosion(collision.gameObject.transform);
             launchForce = 0;
             Destroy(gameObject);
         }

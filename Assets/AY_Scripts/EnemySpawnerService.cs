@@ -12,7 +12,12 @@ public class EnemySpawnerService : MonoSingletonGeneric<EnemySpawnerService>
     [SerializeField] private Transform minZ;
     [SerializeField] private Transform maxZ;
     [SerializeField] private List<TankTypesScriptable> enemyType;
-    void Update()
+    private List<EnemyController> enemyList;
+    private void Start()
+    {
+       enemyList  = new List<EnemyController>();
+    }
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
@@ -29,7 +34,9 @@ public class EnemySpawnerService : MonoSingletonGeneric<EnemySpawnerService>
         }
         int randomIndex = UnityEngine.Random.Range(0, enumCount - 1);
         Transform randomPos = GetRandomCoordinates();
-        Instantiate(enemy, randomPos.position, Quaternion.identity).Initialize(enemyType[randomIndex]);
+        EnemyController enemyInstance = Instantiate(enemy, randomPos.position, Quaternion.identity);
+        enemyInstance.Initialize(enemyType[randomIndex]);
+        enemyList.Add(enemyInstance);
     }
     private Transform GetRandomCoordinates()
     {
@@ -41,5 +48,20 @@ public class EnemySpawnerService : MonoSingletonGeneric<EnemySpawnerService>
         temp.position = new Vector3(UnityEngine.Random.Range(x1, x2), 0, UnityEngine.Random.Range(z1, z2));
         enemyPositioner.transform.position = temp.position;
         return temp;
+    }
+
+    public void DestroyEnemies()
+    {
+        StartCoroutine(DestroyEnemyDelay());
+    }
+
+    private IEnumerator DestroyEnemyDelay()
+    {
+        while(enemyList.Count != 0)
+        {
+            Destroy(enemyList[0].gameObject);
+            enemyList.RemoveAt(0);
+            yield return new WaitForSeconds(1);
+        }
     }
 }

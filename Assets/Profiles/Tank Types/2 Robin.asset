@@ -15,4 +15,4 @@ MonoBehaviour:
   tankName: Robin
   health: 90
   damage: 30
-  speed: 10
+  speed: 20

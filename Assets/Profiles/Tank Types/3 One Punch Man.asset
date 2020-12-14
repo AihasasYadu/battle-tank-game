@@ -15,4 +15,4 @@ MonoBehaviour:
   tankName: One Punch Man
   health: 100
   damage: 100
-  speed: 30
+  speed: 40

@@ -510,6 +510,12 @@ MonoBehaviour:
   tankBody: {fileID: 405065236502840344}
   floatingName: {fileID: 9009436312406041967}
   shellPosition: {fileID: 8955330852504346100}
+  ammo:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   tankSide: 0
 --- !u!54 &1978070746619531419
 Rigidbody:

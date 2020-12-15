@@ -16,6 +16,8 @@ public class EnemySpawnerService : MonoSingletonGeneric<EnemySpawnerService>
     private void Start()
     {
        enemyList  = new List<EnemyController>();
+        EventsManager.PlayerDead += DestroyEnemies;
+        EventsManager.EnemyDeath += RemoveEmptyElements;
     }
     private void Update()
     {

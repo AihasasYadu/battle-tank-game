@@ -17,6 +17,6 @@ public class MonoSingletonGeneric<T> : MonoBehaviour where T : MonoSingletonGene
         {
             Destroy(gameObject);
         }
-        Debug.Log("Instance of type" + typeof(T));
+        //Debug.Log("Instance of type" + typeof(T));
     }
 }

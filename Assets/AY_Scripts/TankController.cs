@@ -10,12 +10,16 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
     [SerializeField] private GameObject tankBody;
     [SerializeField] private TextMesh floatingName;
     [SerializeField] private GameObject shellPosition;
+    private List<Image> ammo;
 
     /*---Private---*/
     private Joystick joystick;
     private Button shootButton;
     private Image shootButtonImage;
     private bool reloading = false;
+    private int magazineSize;
+    private float reloadFillRate;
+    private float reloadWaitPerStep;
 
     /*---Tank Properties---*/
     private string tankName;
@@ -32,7 +36,7 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
 
     [HideInInspector] public TankSides tankSide;
 
-    public void Initialize(TankTypesScriptable t, Joystick jt, Button b)
+    public void Initialize(TankTypesScriptable t, Joystick jt, Button b, List<Image> bullets)
     {
         tankName = t.tankName;
         speed = t.speed;
@@ -40,6 +44,8 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
         health = t.health;
         joystick = jt;
         shootButton = b;
+        ammo = bullets;
+        EventsManager.Instance.ExecuteHealthEvent(health);
     }
     protected override void Awake()
     {
@@ -49,10 +55,14 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
 
     private void Start()
     {
+        magazineSize = ammo.Count;
         shootButton.onClick.AddListener(ShootShell);
         floatingName.text = tankName;
         shootButtonImage = shootButton.GetComponent<Image>();
         tankSide = TankSides.Player;
+        reloadFillRate = 0.05f;
+        reloadWaitPerStep = 0.02f;
+        EventsManager.BulletFired += UpdateMagazine;
     }
 
     void Update()
@@ -66,10 +76,10 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
 
     private void Movement()
     {
-        horizontalMove = joystick.Horizontal * speed;
-        verticalMove = joystick.Vertical * speed;
+        horizontalMove = joystick.Horizontal;
+        verticalMove = joystick.Vertical;
         movement = new Vector3(horizontalMove, 0, verticalMove);
-        rb.MovePosition(transform.position + movement * Time.deltaTime);
+        rb.MovePosition(transform.position + movement * speed * Time.deltaTime);
         Turn();
     }
 
@@ -93,6 +103,7 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
         if (tank == tankSide)
             return;
         health -= damageDealt;
+        EventsManager.Instance.ExecuteHealthEvent(health);
         if (health <= 0)
             PlayerDeath();
     }
@@ -103,7 +114,7 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
         StartCoroutine(Delay());
         Destroy(tankBody);
         rb.isKinematic = true;
-        EnemySpawnerService.Instance.DestroyEnemies();
+        EventsManager.Instance.PlayerDeathEvent();
     }
 
     private void SlowMoGame()
@@ -134,18 +145,41 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
         {
             ShellService.Instance.SetTankTransform = shellPosition.transform;
             ShellService.Instance.GetShell(damage, speed, TankSides.Player);
+            EventsManager.Instance.ExecuteBulletEvent();
+        }
+    }
+
+    private void UpdateMagazine()
+    {
+        for(int i = 0; i < magazineSize ; i++)
+        {
+            if(ammo[i].IsActive())
+            {
+                ammo[i].enabled = false;
+                break;
+            }
+        }
+
+        if (!ammo[magazineSize - 1].IsActive())
+        {
             StartCoroutine(Reload());
         }
     }
 
     private IEnumerator Reload()
     {
+        int i = 0;
         shootButtonImage.fillAmount = 0;
         reloading = true;
         while(shootButtonImage.fillAmount != 1)
         {
-            shootButtonImage.fillAmount += 0.02f;
-            yield return new WaitForSeconds(0.05f);
+            shootButtonImage.fillAmount += reloadFillRate;
+            yield return new WaitForSeconds(reloadWaitPerStep);
+            if (i < magazineSize)
+            {
+                ammo[i].enabled = true;
+                i++;
+            }
         }
         reloading = false;
     }

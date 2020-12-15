@@ -61,6 +61,7 @@ public class EnemyController : MonoBehaviour, IDamageable
         {
             Destroy(gameObject);
         }
+        GetComponent<EnemyHealthController>().SetEnemyHealth(health);
     }
 
     public void SetNewCoordinates()
@@ -107,6 +108,6 @@ public class EnemyController : MonoBehaviour, IDamageable
 
     private void OnDestroy()
     {
-        EnemySpawnerService.Instance.RemoveEmptyElements();
+        EventsManager.Instance.EnemyDeathEvent();
     }
 }

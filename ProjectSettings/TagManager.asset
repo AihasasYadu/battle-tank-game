@@ -13,12 +13,12 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Obstacles
+  - Destructables
+  - Enemy
+  - Shells
+  - Player
+  - Shell Limit
   - 
   - 
   - 

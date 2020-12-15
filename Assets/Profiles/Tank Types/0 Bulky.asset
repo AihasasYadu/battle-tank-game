@@ -15,4 +15,4 @@ MonoBehaviour:
   tankName: Bulky
   health: 75
   damage: 50
-  speed: 5
+  speed: 10

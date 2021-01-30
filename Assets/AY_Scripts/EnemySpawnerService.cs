@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class EnemySpawnerService : MonoSingletonGeneric<EnemySpawnerService>
+public class EnemySpawnerService : ObjectPoolController
 {
     [SerializeField] private EnemyController enemy;
     [SerializeField] private GameObject enemyPositioner;
@@ -13,9 +13,10 @@ public class EnemySpawnerService : MonoSingletonGeneric<EnemySpawnerService>
     [SerializeField] private Transform maxZ;
     [SerializeField] private List<TankTypesScriptable> enemyType;
     private List<EnemyController> enemyList;
-    private void Start()
+    protected override void Start()
     {
-       enemyList  = new List<EnemyController>();
+        base.Start();
+        enemyList  = new List<EnemyController>();
         EventsManager.PlayerDead += DestroyEnemies;
         EventsManager.EnemyDeath += RemoveEmptyElements;
     }

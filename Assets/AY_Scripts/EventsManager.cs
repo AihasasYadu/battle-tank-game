@@ -15,21 +15,21 @@ public class EventsManager : MonoSingletonGeneric<EventsManager>
 
     public void EnemyDeathEvent()
     {
-        EnemyDeath();
+        EnemyDeath?.Invoke();
     }
 
     public void ExecuteHealthEvent(int health)
     {
-        Health(health);
+        Health?.Invoke(health);
     }
 
     public void ExecuteBulletEvent()
     {
-        BulletFired();
+        BulletFired?.Invoke();
     }
 
     public void PlayerDeathEvent()
     {
-        PlayerDead();
+        PlayerDead?.Invoke();
     }
 }

@@ -18,7 +18,7 @@ public class PlayerSelectionScript : MonoBehaviour
     private void LoadLobby()
     {
         SavePlayerChoice();
-        SceneManager.LoadScene((int)SceneIndex.Test);
+        SceneManager.LoadScene((int)SceneIndex.Game);
     }
     private void SavePlayerChoice()
     {

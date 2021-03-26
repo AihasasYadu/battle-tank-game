@@ -10,6 +10,8 @@ public class TankService : MonoSingletonGeneric<TankService>
     [SerializeField] private Button shootButton;
     [SerializeField] private List<TankTypesScriptable> type;
     [SerializeField] private List<Image> ammo;
+    [SerializeField] private Transform lineTarget;
+    private TankController currTank;
     void Start()
     {
         GetTank();
@@ -18,6 +20,8 @@ public class TankService : MonoSingletonGeneric<TankService>
     private void GetTank()
     {
         int playerChoice = PlayerPrefs.GetInt("TankSelected");
-        Instantiate(tank).Initialize(type[playerChoice], joystick, shootButton, ammo);
+        currTank = Instantiate(tank);
+        currTank.Initialize(type[playerChoice], joystick, shootButton, ammo, lineTarget);
+        shootButton.GetComponent<ShootButtonController>().setTank = currTank;
     }
 }

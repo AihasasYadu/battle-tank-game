@@ -10,6 +10,7 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
     [SerializeField] private GameObject tankBody;
     [SerializeField] private TextMesh floatingName;
     [SerializeField] private GameObject shellPosition;
+    private Transform lineTarget;
     private List<Image> ammo;
 
     /*---Private---*/
@@ -20,6 +21,7 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
     private int magazineSize;
     private float reloadFillRate;
     private float reloadWaitPerStep;
+    private const int GROUND_LAYER = 14;
 
     /*---Tank Properties---*/
     private string tankName;
@@ -35,8 +37,9 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
     private Vector3 movement;
 
     [HideInInspector] public TankSides tankSide;
+    public bool isReloading { get { return reloading; } }
 
-    public void Initialize(TankTypesScriptable t, Joystick jt, Button b, List<Image> bullets)
+    public void Initialize(TankTypesScriptable t, Joystick jt, Button b, List<Image> bullets, Transform lr)
     {
         tankName = t.tankName;
         speed = t.speed;
@@ -45,6 +48,7 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
         joystick = jt;
         shootButton = b;
         ammo = bullets;
+        lineTarget = lr;
         EventsManager.Instance.ExecuteHealthEvent(health);
     }
     protected override void Awake()
@@ -56,7 +60,6 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
     private void Start()
     {
         magazineSize = ammo.Count;
-        shootButton.onClick.AddListener(ShootShell);
         floatingName.text = tankName;
         shootButtonImage = shootButton.GetComponent<Image>();
         tankSide = TankSides.Player;
@@ -90,6 +93,8 @@ public class TankController : MonoSingletonGeneric<TankController>, IDamageable
             lookDirection = new Vector3(joystick.Direction.x, 0, joystick.Direction.y);
         }
         tankBody.transform.rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+        lineTarget.transform.rotation = tankBody.transform.rotation;
+        lineTarget.transform.position = shellPosition.transform.position + 100*shellPosition.transform.forward;
     }
 
     private void NameLookAtCamera()

@@ -387,6 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 230f56ebf282e6f409dc8f3705b9ec05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolSize: 0
   enemy: {fileID: 5616419763752047522, guid: 09c0f5b4b34ac034b90eaef5c1c8e7a3, type: 3}
   enemyPositioner: {fileID: 1239155870}
   minX: {fileID: 1463478848}
@@ -2163,6 +2164,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832552218}
   m_CullTransparentMesh: 0
+--- !u!1 &838707749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 838707750}
+  m_Layer: 0
+  m_Name: LineRenderer Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &838707750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838707749}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 99.74936, y: 63.403328, z: -29.103}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &872771930
 GameObject:
   m_ObjectHideFlags: 0
@@ -3069,6 +3100,7 @@ MonoBehaviour:
   - {fileID: 421152469}
   - {fileID: 1568160577}
   - {fileID: 702947524}
+  lineTarget: {fileID: 838707750}
 --- !u!4 &1379094013
 Transform:
   m_ObjectHideFlags: 0
@@ -4339,6 +4371,7 @@ GameObject:
   - component: {fileID: 1952357690}
   - component: {fileID: 1952357689}
   - component: {fileID: 1952357691}
+  - component: {fileID: 1952357692}
   m_Layer: 5
   m_Name: Shoot Button
   m_TagString: Untagged
@@ -4445,6 +4478,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1952357692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952357687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec8d55239423e648b49a95c8c1a2e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tank: {fileID: 4995585151368127142, guid: 9040ff8188a10434eb33dfc77f545da8, type: 3}
+  target: {fileID: 838707750}
 --- !u!1001 &1981330118
 PrefabInstance:
   m_ObjectHideFlags: 0

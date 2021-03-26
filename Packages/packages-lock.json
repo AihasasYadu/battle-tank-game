@@ -1,7 +1,5 @@
 {
   "dependencies": {
-<<<<<<< HEAD
-=======
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
@@ -32,7 +30,6 @@
       },
       "url": "https://packages.unity.com"
     },
->>>>>>> origin/master
     "com.unity.collab-proxy": {
       "version": "1.2.16",
       "depth": 0,
@@ -63,8 +60,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-<<<<<<< HEAD
-=======
     "com.unity.multiplayer-hlapi": {
       "version": "1.0.6",
       "depth": 0,
@@ -81,7 +76,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
->>>>>>> origin/master
     "com.unity.test-framework": {
       "version": "1.1.14",
       "depth": 0,
@@ -103,11 +97,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-<<<<<<< HEAD
-      "version": "1.2.14",
-=======
       "version": "1.2.6",
->>>>>>> origin/master
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -121,8 +111,6 @@
         "com.unity.modules.ui": "1.0.0"
       }
     },
-<<<<<<< HEAD
-=======
     "com.unity.xr.legacyinputhelpers": {
       "version": "2.1.4",
       "depth": 0,
@@ -137,7 +125,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
->>>>>>> origin/master
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

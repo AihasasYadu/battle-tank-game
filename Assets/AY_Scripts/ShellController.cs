@@ -8,7 +8,7 @@ public class ShellController : MonoBehaviour
     private int shellDamage;
     private int enemyLayer = 10;
     private int playerLayer = 12;
-    private int shellLimitLayer = 13;
+    private const int SHELL_LIMIT_LAYER = 13;
     private int launchForce;
     private TankSides tankSide;
     private Rigidbody rb;
@@ -54,7 +54,7 @@ public class ShellController : MonoBehaviour
             Destroy(gameObject);
         }*/
 
-        if (collision.gameObject.layer.Equals(shellLimitLayer))
+        if (collision.gameObject.layer.Equals(SHELL_LIMIT_LAYER))
         {
             Destroy(gameObject);
         }

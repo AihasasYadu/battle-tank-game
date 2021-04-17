@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 0 Bulky
   m_EditorClassIdentifier: 
   tankName: Bulky
-  health: 75
+  health: 70
   damage: 50
   speed: 10

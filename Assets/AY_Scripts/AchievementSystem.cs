@@ -56,7 +56,7 @@ public class AchievementSystem : MonoSingletonGeneric<AchievementSystem>
 
     private void CheckForAchievement()
     {
-        if(enemiesDestroyed == 10 && !achi[(int)Achievement.Destructor].Unlocked)
+        if(enemiesDestroyed == 5 && !achi[(int)Achievement.Destructor].Unlocked)
         {
             StartCoroutine(DisplayAchievement(achi[(int)Achievement.Destructor]));
         }

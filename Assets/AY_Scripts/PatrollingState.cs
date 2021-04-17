@@ -27,7 +27,7 @@ public class PatrollingState : NpcStates
 
     private void Movement()
     {
-        enemy.rb.MovePosition(enemy.transform.position + enemy.newPosition * Time.deltaTime);
+        //enemy.rb.MovePosition(enemy.transform.position + enemy.newPosition * Time.deltaTime);
         Turn();
     }
 

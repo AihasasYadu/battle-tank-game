@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Badge: {fileID: 21300000, guid: 927d35a2a0691e649a8c70c8a814ab33, type: 3}
   Title: Hotshot
-  Unlocked: 0
+  Unlocked: 1
